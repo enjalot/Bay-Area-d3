@@ -23,4 +23,5 @@ print len(members)
 
 fm = open("members.json", 'w')
 json.dump(members, fm)
+fm.close()
 

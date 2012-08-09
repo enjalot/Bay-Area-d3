@@ -1,102 +1,122 @@
 <html>
-    <head>
-        <script src="d3.v2.js" type="text/javascript"></script>
-        <script src="underscore.js" type="text/javascript"></script>
-    </head>
-    <body>
-        <svg></svg>
-        <script type="text/javascript">
+<head>
+<link href='http://fonts.googleapis.com/css?family=Share:400,700' rel='stylesheet' type='text/css'>
 
-            d3.json("members.json", function(members) {
-            d3.json("events.json", function(events) {
-                events = events["results"];
-                var w = 800;
+<script src='http://d3js.org/d3.v2.min.js' type='text/javascript'></script>
+<script src='underscore.js' type='text/javascript'></script>
 
 
-                members = _.sortBy(members, function(d) {
-                    return new Date(d.joined);
-                })
-                //console.log(members)
-                console.log(members[0]);
-                console.log(members.length);
 
-                var joined = _.map(_.pluck(members, "joined"), function(d) {
-                    return new Date(d);
-                });
 
-                var tmin = d3.min(joined);
-                var tmax = d3.max(joined);
-                
-                var tscale = d3.time.scale()
-                    .domain([tmin, tmax])
-                    .range([50, w]);
 
-                console.log(tscale(new Date(members[5].joined)))
+<style>
+body {
+	font-family:Share, san-serif;
+	background: #CACAC4 url(tile.png);
+	min-width:760;
+	margin: 0 5% 0 5%;
+	text-align: center;
+	}
 
-                var xscale = d3.scale.ordinal()
-                    .domain(members)
-                    .rangeBands([0, w])
-                
-                var svg = d3.select("svg")
-                var membs = svg.selectAll("rect")
-                    .data(members)
-                    
-                membs.enter()
-                    .append("rect")
-                membs.attr("width", 2)
-                    .attr("height", 30)
-                    .style("fill-opacity", 0.1)
-                    .style("fill", "#0000ff")
-                    .attr("transform", function(d,i) {
-                        //console.log(tscale(new Date(d.joined)))
-                        //var x = i * 15
-                        var x = tscale(new Date(d.joined));
-                        var y = 200;
-                        return "translate(" + [x,y] + ")";
-                    })
+p	{font-size:19;
+	color: #606164;
+	margin: 20px 10px 30px 10px;}
+h1	{font-size:50;
+	color: #8A8781;
+	text-shadow: 0 -2px 0 #ffffff;}
+h2	{font-size:32;
+	color: #8A8781;
+	margin: 10px 0 10px 0;
+	text-shadow: 0 -3px 0 #eeeeee;
+	}
+#header {
+	background: #EAEAE5;
+	padding: 10px 0 10px 0;}
 
-                console.log("event", events)
+#logo {
+	float:left;
+	margin: 25px;}
+	
+.emph {
+	font-weight:700;
+	color: #1C85BA;}
+	
+#container {width:800px;
+	background: #E0E0DA;
+	padding: 0 0px 0 0px;}
 
-            var evts = svg.selectAll("circle")
-                .data(events)
-            evts.enter()
-                .append("circle")
+#chart {}
 
-            console.log(events.length)
-            evts.attr("r", 10)
-                .style("fill", "#ff0000")
-                .style("fill-opacity", 0.2)
-                .attr("transform", function(d,i) {
-                    var x = tscale(new Date(d.time));
-                    console.log(d.time)
-                    var y = 300;
-                    return "translate(" + [x,y] + ")";
+a:link, a:visited {font-weight:700; color: #1C85BA; text-decoration: none;}
+a:active, a:hover {font-weight:700; color: #1C85BA; text-decoration: none;}	
 
-            })
-            
-            var evts_line = svg.selectAll("line")
-                .data(events)
-            evts_line.enter()
-                .append("line")
+</style>
 
-            evts_line.attr("r", 10)
-                .style("stroke", "#ff0000")
-                .style("stroke-opacity", 1)
-                .attr("transform", function(d,i) {
-                    var x = tscale(new Date(d.time));
-                    var y = 100;
-                    return "translate(" + [x,y] + ")";
-                    })
+</head>
 
-                    .attr("x1", 0)
-                    .attr("x2", 0)
-                    .attr("y1", 0)
-                    .attr("y2", 200)
-            
-            
-            })
-            })
-        </script>
+<body>
 
-    </body>
+	
+<div id="container">
+	<div id="header">
+			<div id="logo"><img src="http://photos4.meetupstatic.com/photos/event/6/e/9/8/global_103708312.jpeg" height="80px"></div>
+			<div id="title"><h1>Bay Area d3 User Group</h1></div>
+		</div>
+
+
+<p>The <a href="http://www.meetup.com/Bay-Area-d3-User-Group/" target="_blank">Bay Area d3 User Group</a>, founded six months ago, is nearing <font class="emph">500 members</font> and it&apos;s <font class="emph">10th event</font>.</p>
+
+<p>The group hosts <font class="emph">workshops</font>, <font class="emph">hackathons</font>, and <font class="emph">open discussions</font> of working with data and the d3.js library.  It&apos;s run by <a href="https://twitter.com/enjalot" target="_blank">Ian Johnson</a> and <a href="http://www.linkedin.com/profile/view?id=48624110" target="_blank">Kai Chang</a>, and made possible by Mike Bostock, Christophe Viau, Dow Street, Rich Morin, and Vincenzo Menanno</p>
+
+
+<h2>Member Count &amp; Events</h2>
+<canvas id="break1" width="500" height="4">
+Your browser does not support HTML5 Canvas.
+</canvas>
+
+<div class="chart">
+    <svg id="memberline"></svg>
+<!--<img src="http://content.screencast.com/users/ptvan/folders/Snagit/media/1b6ece47-fa4d-4776-adfa-d25598ef2f38/2012-08-09_01-01-02.png">
+-->
+
+</div>
+
+
+<h2>The Members</h2>
+<canvas id="break2" width="500" height="4">
+Your browser does not support HTML5 Canvas.
+</canvas>
+
+<div id="avatars">
+    <svg id="avatarsvg"></svg>
+</div>
+
+<script>
+var example1 = document.getElementById('break1');
+var context = example1.getContext('2d');
+context.fillStyle = '#ccccc5';
+context.fillRect(0, 0, 500, 2);
+context.fillStyle = '#eeeeee';
+context.fillRect(0, 2, 500, 2);
+
+var example2 = document.getElementById('break2');
+var context = example2.getContext('2d');
+context.fillStyle = '#ccccc5';
+context.fillRect(0, 0, 500, 2);
+context.fillStyle = '#eeeeee';
+context.fillRect(0, 2, 500, 2);
+</script>
+
+
+
+<script src='data.js' type='text/javascript'></script>
+<script src="memberline.js"></script>
+<script src="avatars.js"></script>
+
+
+
+
+
+
+</body>
 </html>

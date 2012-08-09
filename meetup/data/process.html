@@ -1,0 +1,107 @@
+<html>
+    <head>
+        <script src="d3.v2.js" type="text/javascript"></script>
+        <script src="underscore.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <svg></svg>
+        <script type="text/javascript">
+
+            d3.csv("members.csv", function(csv) {
+                    console.log("JSON")
+                    console.log(JSON.stringify(csv));
+                    })
+return;
+            d3.json("members.json", function(members) {
+            d3.json("events.json", function(events) {
+                events = events["results"];
+                var w = 800;
+
+
+                members = _.sortBy(members, function(d) {
+                    return new Date(d.joined);
+                })
+                //console.log(members)
+                console.log(members[0]);
+                console.log(members.length);
+
+                var joined = _.map(_.pluck(members, "joined"), function(d) {
+                    return new Date(d);
+                });
+
+                var tmin = d3.min(joined);
+                var tmax = d3.max(joined);
+                
+                var tscale = d3.time.scale()
+                    .domain([tmin, tmax])
+                    .range([50, w]);
+
+                console.log(tscale(new Date(members[5].joined)))
+
+                var xscale = d3.scale.ordinal()
+                    .domain(members)
+                    .rangeBands([0, w])
+                
+                var svg = d3.select("svg")
+                var membs = svg.selectAll("rect")
+                    .data(members)
+                    
+                membs.enter()
+                    .append("rect")
+                membs.attr("width", 2)
+                    .attr("height", 30)
+                    .style("fill-opacity", 0.1)
+                    .style("fill", "#0000ff")
+                    .attr("transform", function(d,i) {
+                        //console.log(tscale(new Date(d.joined)))
+                        //var x = i * 15
+                        var x = tscale(new Date(d.joined));
+                        var y = 200;
+                        return "translate(" + [x,y] + ")";
+                    })
+
+                console.log("event", events)
+
+            var evts = svg.selectAll("circle")
+                .data(events)
+            evts.enter()
+                .append("circle")
+
+            console.log(events.length)
+            evts.attr("r", 10)
+                .style("fill", "#ff0000")
+                .style("fill-opacity", 0.2)
+                .attr("transform", function(d,i) {
+                    var x = tscale(new Date(d.time));
+                    console.log(d.time)
+                    var y = 300;
+                    return "translate(" + [x,y] + ")";
+
+            })
+            
+            var evts_line = svg.selectAll("line")
+                .data(events)
+            evts_line.enter()
+                .append("line")
+
+            evts_line.attr("r", 10)
+                .style("stroke", "#ff0000")
+                .style("stroke-opacity", 1)
+                .attr("transform", function(d,i) {
+                    var x = tscale(new Date(d.time));
+                    var y = 100;
+                    return "translate(" + [x,y] + ")";
+                    })
+
+                    .attr("x1", 0)
+                    .attr("x2", 0)
+                    .attr("y1", 0)
+                    .attr("y2", 200)
+            
+            
+            })
+            })
+        </script>
+
+    </body>
+</html>
