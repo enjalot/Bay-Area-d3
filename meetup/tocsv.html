@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <script src="d3.v2.js" type="text/javascript"></script>
+        <script src="underscore.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <svg></svg>
+        <script type="text/javascript">
+          d3.json("members.json", function(members) {
+            var keys = ["name", "joined", "photo_url"];
+            var rows = _(members)
+              .sortBy(function(row) {
+                return new Date(row.joined);
+              })
+              .map(function(row) {
+                return keys.map(function(k) { return row[k]; })
+              });
+            var csv = d3.csv.format([keys].concat(rows)).replace(/\n/g,"<br/>\n");
+            var styles = "<style>body { font-family: sans-serif; font-size: 12px; }</style>";
+            window.open("text/csv").document.write(styles + csv);
+          })
+        </script>
+
+    </body>
+</html>
