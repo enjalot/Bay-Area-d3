@@ -4,14 +4,14 @@ var svg = d3.select("#avatarsvg");
 svg.style("background-color", "E0E0DA");
 
 var xoffset = 40;
-var yoffset = 10;
+var yoffset = 60;
 var members = _.sortBy(members, function(d) {
     return new Date(d.joined);
-})
+});
 //members = members.slice(0, 40);
 //console.log(members)
 //console.log(members[0]);
-console.log(members.length);
+//console.log(members.length);
 
 var joined = _.map(_.pluck(members, "joined"), function(d) {
     return new Date(d);

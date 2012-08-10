@@ -13,7 +13,7 @@ var w = 640;
 var h = 300;
 
 var xoffset = 100;
-var yoffset = 112;
+var yoffset = 60;
 
 
 var histoffset = 365;
