@@ -144,6 +144,10 @@ hist.append("text")
   .style("alignment-baseline", "middle")
   .attr("y", histscale.range()[1]/2)
   .attr("x", -15)
+  .style("font-size","16")
+  .style("fill","#606164")
+  
+
 
 hist.append("text")
   .text(0)
@@ -151,6 +155,9 @@ hist.append("text")
   .style("alignment-baseline", "middle")
   .attr("y", histscale.range()[1])
   .attr("x", -15)
+  .style("font-size","16")
+  .style("fill","#606164")
+  
 
 hist.append("text")
   .text(42)
@@ -158,6 +165,10 @@ hist.append("text")
   .style("alignment-baseline", "middle")
   .attr("y", histscale.range()[0])
   .attr("x", -15)
+  .style("font-size","16")
+  .style("fill","#606164")
+  
+
   
   
 //AXIS stuff
