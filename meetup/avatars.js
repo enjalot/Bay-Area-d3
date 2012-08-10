@@ -177,7 +177,8 @@ var charw = 12;
     .text(function(d) {
       return d.name;
     })
-    .style("alignment-baseline", "hanging")
+    //.style("alignment-baseline", "hanging")
+    .attr("dy", ".71em")
     .style("text-anchor", "middle")
       .style("font-family","Share")
       .style("fill","")
