@@ -25,6 +25,9 @@
                   o.price = parseFloat(o.price);
                   o.rent = parseFloat(o.rent);
                   o.groceries = parseFloat(o.groceries);
+
+                  o.lat = parseFloat(o.lat);
+                  o.lon = parseFloat(o.lon);
                 });
                 
                 //What is the most expensive rent?
@@ -38,6 +41,8 @@
                     return d.groceries;
                 });
                 console.log("cheapest groceries", min_groceries);
+
+                console.log("hi data", JSON.stringify(data));
                 
         })
         </script>
